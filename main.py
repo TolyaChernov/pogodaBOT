@@ -21,7 +21,7 @@ async def get_weather(message: types.Message):
     q = message.text
     try:
         response = requests.get(
-            f"http://api.weatherapi.com/v1/current.json?key={token_api}&q={q}&aqi=no"
+            f"http://api.weatherapi.com/v1/current.json?key={token_api}&q={q}&lang=ru&aqi=no"
         )
         data = response.json()
         print(data)
@@ -32,9 +32,10 @@ async def get_weather(message: types.Message):
         humidity = data["current"]["humidity"]
         pressure_mb = data["current"]["pressure_mb"]
         wind_mph = data["current"]["wind_mph"]
+        condition = data["current"]["condition"]["text"]
 
         await message.reply(
-            f"\nГород: {city}\nСтрана: {country}\nМестное время: {localtime}\nТемпература: {temp}°C\n"
+            f"\nГород: {city}\nСтрана: {country}\nМестное время: {localtime}\nТемпература: {temp}°C\nПогодные условия: {condition}\n"
             f"Влажность: {humidity}%\nДавление: {math.ceil(pressure_mb/1.333)} мм.рт.ст\nВетер: {wind_mph} м/с \n"
             f"Хорошего дня!"
         )
